@@ -1,0 +1,16 @@
+(defun c:ССЫЛКА_ОБНОВИТЬ (/ az_pick az_xref) 					
+ (while (= az_pick nil) 								
+   (setq az_pick (entsel "\nВыбери ссылку для обновления")) 						
+   (if (= (cdr (assoc 0 (entaz_pick (car az_pick)))) "INSERT") 				
+        (progn 									
+          (setq az_xref (cdr (assoc 2 (entaz_pick (car az_pick))))) 			
+          (setvar "visretain" 0)						
+	(setvar "XREFOVERRIDE" 0)	
+          (command "-ССЫЛКА" "О" az_xref) 						
+          (princ (strcat "\nФайл " az_xref "  - цвета данной ссылки обновлены"))	
+          (setvar "visretain" 1) 						
+	(setvar "XREFOVERRIDE" 1)) 									
+       (progn 									
+          (princ "\nВыбран элемент,который не является ссылкой") 				
+          (setq az_pick nil)))) 										
+     (princ))										
